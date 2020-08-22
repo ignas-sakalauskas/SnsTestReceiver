@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SnsTestReceiverApi.Middleware;
-using SnsTestReceiverApi.Services;
+using SnsTestReceiver.Api.Middleware;
+using SnsTestReceiver.Api.Services;
 
-namespace SnsTestReceiverApi
+namespace SnsTestReceiver.Api
 {
     public class Startup
     {

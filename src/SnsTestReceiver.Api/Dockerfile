@@ -1,6 +1,9 @@
 ﻿FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 WORKDIR /app
 
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
+
 # copy csproj and restore as distinct layers
 COPY . .
 RUN dotnet restore

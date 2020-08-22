@@ -1,25 +1,25 @@
-﻿using SnsTestReceiverApi.Models;
+﻿using SnsTestReceiver.Core.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SnsTestReceiverApi.Services
+namespace SnsTestReceiver.Api.Services
 {
     public class InMemoryRepository : IRepository
     {
         private readonly ConcurrentDictionary<string, SnsMessage> _storage = new ConcurrentDictionary<string, SnsMessage>();
-        
-        public IReadOnlyList<string> Search(string keyword, int limit)
+
+        public IReadOnlyList<SnsMessage> Search(string keyword, int limit)
         {
             var query = _storage.Values.AsQueryable();
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(m => m.Message != null && m.Message.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                query = query.Where(m => m.Message.Contains(keyword, StringComparison.OrdinalIgnoreCase));
             }
 
-            return query.Select(m=>m.MessageId).Take(limit).ToList();
+            return query.Take(limit).ToList();
         }
 
         public bool TryCreate(string key, SnsMessage value)

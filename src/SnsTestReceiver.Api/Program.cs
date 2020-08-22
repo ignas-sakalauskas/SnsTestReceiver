@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace SnsTestReceiverApi
+namespace SnsTestReceiver.Api
 {
     public class Program
     {
@@ -18,3 +18,4 @@ namespace SnsTestReceiverApi
                 });
     }
 }
+// TODO might actually need docker image for API
