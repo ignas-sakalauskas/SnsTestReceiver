@@ -1,2 +1,2 @@
 # SnsTestReceiver
-Simple API to receive and manage SNS test notifications
+Simple API to receive and manage SNS test notifications.
