@@ -7,7 +7,7 @@
     <RepositoryUrl>https://github.com/ignas-sakalauskas/SnsTestReceiver</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageProjectUrl>https://github.com/ignas-sakalauskas/SnsTestReceiver</PackageProjectUrl>
-    <Description>Simple API to receive and manage SNS test notifications.</Description>
+    <Description>The SnsTestReceiver API SDK for .NET Core</Description>
     <Product>SnsTestReceiver</Product>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
