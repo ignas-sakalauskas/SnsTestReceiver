@@ -31,8 +31,20 @@ services:
         echo Waiting 20s for localstack to start
         sleep 20
         aws --endpoint-url=http://localstack:4566 sns create-topic --name test-notifications
-        aws --endpoint-url=http://localstack:4566 sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:test-notifications" --protocol http --notification-endpoint http://host.docker.internal:5000/messages
-        
+        aws --endpoint-url=http://localstack:4566 sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:test-notifications" --protocol http --notification-endpoint http://sns-test-receiver:5000/messages
+  
+  sns-test-receiver:
+    build:
+      context: .
+      dockerfile: ./src/SnsTestReceiver.Api/Dockerfile
+    networks:
+      - test-network
+    container_name: sns-test-receiver
+    depends_on:
+      - awscli
+    ports:
+      - "5000:5000"
+
 networks:
   test-network:
     name: test-network

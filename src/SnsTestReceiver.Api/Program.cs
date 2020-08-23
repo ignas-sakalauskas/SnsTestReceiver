@@ -18,4 +18,3 @@ namespace SnsTestReceiver.Api
                 });
     }
 }
-// TODO might actually need docker image for API

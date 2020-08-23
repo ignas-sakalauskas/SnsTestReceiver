@@ -1,11 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace SnsTestReceiver.Api.Middleware
 {
     public class RequestLoggingMiddleware
     {
+        private const string MessageTemplate = "Request {method} {url} => {statusCode}";
+
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
@@ -23,11 +25,24 @@ namespace SnsTestReceiver.Api.Middleware
             }
             finally
             {
-                _logger.LogInformation(
-                    "Request {method} {url} => {statusCode}",
+                var statusCode = context.Response?.StatusCode;
+                var logLevel = LogLevel.Information;
+
+                if (statusCode >= 500)
+                {
+                    logLevel = LogLevel.Error;
+                }
+                else if (statusCode >= 400)
+                {
+                    logLevel = LogLevel.Warning;
+                }
+
+                _logger.Log(
+                    logLevel, 
+                    MessageTemplate,
                     context.Request?.Method,
-                    context.Request?.Path.Value,
-                    context.Response?.StatusCode);
+                    context.Request?.Path.Value, 
+                    statusCode);
             }
         }
     }

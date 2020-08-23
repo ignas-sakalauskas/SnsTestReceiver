@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SnsTestReceiver.Api.Models.Request;
 using SnsTestReceiver.Api.Services;
@@ -19,24 +20,22 @@ namespace SnsTestReceiver.Api.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IRepository _repository;
-        private readonly IOptions<ApiBehaviorOptions> _apiBehaviorOptions;
+        private readonly ILogger<MessagesController> _logger;
 
-        public MessagesController(IRepository repository, IOptions<ApiBehaviorOptions> apiBehaviorOptions)
+        public MessagesController(IRepository repository, ILogger<MessagesController> logger)
         {
             _repository = repository;
-            _apiBehaviorOptions = apiBehaviorOptions;
+            _logger = logger;
         }
 
         [HttpGet]
-        [ActionName("GetAll")]
         public IActionResult GetAll([FromQuery] GetAllQuery query)
         {
             return Ok(_repository.Search(query.Search, query.Limit ?? 10));
         }
 
         [HttpPost]
-        [ActionName("Post")]
-        public async Task<IActionResult> Post()
+        public async Task<IActionResult> PostAsync([FromServices] IOptions<ApiBehaviorOptions> apiBehaviorOptions)
         {
             SnsMessage message;
             try
@@ -51,7 +50,7 @@ namespace SnsTestReceiver.Api.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("Body", e.Message);
-                return _apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
+                return apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
             }
 
             // TODO split into service/helpers
@@ -65,17 +64,18 @@ namespace SnsTestReceiver.Api.Controllers
                     ModelState.AddModelError(result.MemberNames.First(), result.ErrorMessage);
                 }
 
-                return _apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
+                return apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
             }
 
             if (!_repository.TryCreate(message.MessageId, message))
                 return Conflict();
 
-            return CreatedAtAction("Post", message);
+            _logger.LogDebug($"Message with ID={message.MessageId} created successfully");
+
+            return CreatedAtAction(nameof(Get), new { message.MessageId }, message);
         }
 
         [HttpGet("{messageId}")]
-        [ActionName("Get")]
         public IActionResult Get(string messageId)
         {
             var item = _repository.Get(messageId);
@@ -86,7 +86,6 @@ namespace SnsTestReceiver.Api.Controllers
         }
 
         [HttpDelete("{messageId}")]
-        [ActionName("Delete")]
         public IActionResult Delete(string messageId)
         {
             if (!_repository.Delete(messageId))
