@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Ignas Sakalauskas</Authors>
     <RepositoryUrl>https://github.com/ignas-sakalauskas/SnsTestReceiver</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -21,10 +21,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.7" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SnsTestReceiver.Core\SnsTestReceiver.Core.csproj" />
   </ItemGroup>
 
 </Project>

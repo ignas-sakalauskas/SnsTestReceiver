@@ -1,4 +1,4 @@
-﻿namespace SnsTestReceiver.Core.Models
+﻿namespace SnsTestReceiver.Sdk.Models
 {
     public class MessageAttributeValue
     {

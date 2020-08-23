@@ -1,4 +1,4 @@
-﻿using SnsTestReceiver.Core.Models;
+﻿using SnsTestReceiver.Sdk.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

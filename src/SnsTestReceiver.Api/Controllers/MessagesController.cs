@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SnsTestReceiver.Api.Models.Request;
 using SnsTestReceiver.Api.Services;
-using SnsTestReceiver.Core.Models;
+using SnsTestReceiver.Sdk.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

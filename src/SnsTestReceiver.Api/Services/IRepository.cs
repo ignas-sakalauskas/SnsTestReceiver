@@ -1,4 +1,4 @@
-﻿using SnsTestReceiver.Core.Models;
+﻿using SnsTestReceiver.Sdk.Models;
 using System.Collections.Generic;
 
 namespace SnsTestReceiver.Api.Services

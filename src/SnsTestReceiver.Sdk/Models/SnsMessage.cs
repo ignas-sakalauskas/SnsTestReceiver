@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SnsTestReceiver.Core.Models
+namespace SnsTestReceiver.Sdk.Models
 {
     public class SnsMessage
     {

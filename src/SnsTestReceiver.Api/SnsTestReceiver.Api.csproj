@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SnsTestReceiver.Core\SnsTestReceiver.Core.csproj" />
+    <ProjectReference Include="..\SnsTestReceiver.Sdk\SnsTestReceiver.Sdk.csproj" />
   </ItemGroup>
 
 </Project>
