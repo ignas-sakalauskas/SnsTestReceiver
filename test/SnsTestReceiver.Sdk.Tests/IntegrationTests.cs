@@ -56,7 +56,7 @@ namespace SnsTestReceiver.Sdk.Tests
             await _sut.CreateAsync(body);
 
             // When
-            var result = await _sut.GetAllAsync(message.Message);
+            var result = await _sut.SearchAsync(message.Message);
 
             // Then
             result.Should().HaveCount(1);

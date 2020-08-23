@@ -17,9 +17,9 @@ namespace SnsTestReceiver.Sdk
             _httpClient = httpClient;
         }
 
-        public async Task<IReadOnlyList<SnsMessage>> GetAllAsync(string search = null, int? limit = null)
+        public async Task<IReadOnlyList<SnsMessage>> SearchAsync(string text = null, int? limit = null)
         {
-            using var response = await _httpClient.GetAsync($"/messages/?search={search}&limit={limit}");
+            using var response = await _httpClient.GetAsync($"/messages/?search={text}&limit={limit}");
             response.EnsureSuccessStatusCode();
 
             return await DeserializeAsync<List<SnsMessage>>(response.Content);
