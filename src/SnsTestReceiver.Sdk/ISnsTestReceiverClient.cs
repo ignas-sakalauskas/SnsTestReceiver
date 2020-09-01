@@ -4,7 +4,7 @@ using SnsTestReceiver.Sdk.Models;
 
 namespace SnsTestReceiver.Sdk
 {
-    public interface ISnsTestReceiver
+    public interface ISnsTestReceiverClient
     {
         Task<IReadOnlyList<SnsMessage>> SearchAsync(string text = null, int? limit = null);
         Task<SnsMessage> GetAsync(string messageId);

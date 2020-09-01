@@ -8,11 +8,11 @@ using SnsTestReceiver.Sdk.Models;
 
 namespace SnsTestReceiver.Sdk
 {
-    public class SnsTestReceiver : ISnsTestReceiver
+    public class SnsTestReceiverClient : ISnsTestReceiverClient
     {
         private readonly HttpClient _httpClient;
 
-        public SnsTestReceiver(HttpClient httpClient)
+        public SnsTestReceiverClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

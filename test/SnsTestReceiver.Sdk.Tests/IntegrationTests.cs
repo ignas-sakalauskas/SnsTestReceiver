@@ -20,7 +20,7 @@ namespace SnsTestReceiver.Sdk.Tests
         private readonly ServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration = BuildConfiguration();
 
-        private readonly ISnsTestReceiver _sut;
+        private readonly ISnsTestReceiverClient _sut;
 
         public IntegrationTests()
         {
@@ -31,7 +31,7 @@ namespace SnsTestReceiver.Sdk.Tests
 
             _serviceProvider = _serviceCollection.BuildServiceProvider();
 
-            _sut = _serviceProvider.GetService<ISnsTestReceiver>();
+            _sut = _serviceProvider.GetService<ISnsTestReceiverClient>();
         }
 
         [Theory, AutoData]

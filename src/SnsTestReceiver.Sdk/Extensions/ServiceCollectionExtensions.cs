@@ -18,7 +18,7 @@ namespace SnsTestReceiver.Sdk.Extensions
                 throw new ArgumentNullException(nameof(options));
             }
 
-            serviceCollection.AddHttpClient<ISnsTestReceiver, SnsTestReceiver>(c =>
+            serviceCollection.AddHttpClient<ISnsTestReceiverClient, SnsTestReceiverClient>(c =>
             {
                 c.BaseAddress = options.BaseUrl;
             });
