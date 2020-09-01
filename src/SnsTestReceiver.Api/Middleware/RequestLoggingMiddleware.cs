@@ -6,7 +6,7 @@ namespace SnsTestReceiver.Api.Middleware
 {
     public class RequestLoggingMiddleware
     {
-        private const string MessageTemplate = "Request {method} {url} => {statusCode}";
+        private const string MessageTemplate = "Request {method} {path}{query} => {statusCode}";
 
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
@@ -41,7 +41,8 @@ namespace SnsTestReceiver.Api.Middleware
                     logLevel, 
                     MessageTemplate,
                     context.Request?.Method,
-                    context.Request?.Path.Value, 
+                    context.Request?.Path.Value,
+                    context.Request?.QueryString.Value,
                     statusCode);
             }
         }
