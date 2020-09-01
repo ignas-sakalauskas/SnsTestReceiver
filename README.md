@@ -26,8 +26,8 @@ Install the [SnsTestReceiver.Sdk](https://www.nuget.org/packages/SnsTestReceiver
 ```
 dotnet add package SnsTestReceiver.Sdk
 ```
-## Example
-A fully working example coming soon!
+## Examples
+See `example` folder.
 
 ## Notes
 - If you use a different programming language, you can still use the `SnsTestReceiver`, however you need to write your own SDK.

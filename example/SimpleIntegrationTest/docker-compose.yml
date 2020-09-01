@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    environment:
+      - SERVICES=sns
+      - HOSTNAME=localstack
+      - DEFAULT_REGION=eu-west-1
+    ports:
+     - "4566:4566"
+
+  awscli:
+    image: garland/aws-cli-docker:latest
+    container_name: awscli
+    depends_on:
+      - localstack
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=XX
+      - AWS_SECRET_ACCESS_KEY=XX
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo Waiting 20s for localstack to start
+        sleep 20
+        aws --endpoint-url=http://localstack:4566 sns create-topic --name notifications
+        aws --endpoint-url=http://localstack:4566 sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:notifications" --protocol http --notification-endpoint http://sns-test-receiver:5000/messages
+
+  sns-test-receiver:
+    image: ignassakalauskas/sns-test-receiver:latest
+    container_name: sns-test-receiver
+    ports:
+      - "5000:5000"
