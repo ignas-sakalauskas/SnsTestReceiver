@@ -50,7 +50,7 @@ namespace SimpleIntegrationTest
 
             await using var sp = collection.BuildServiceProvider();
             var sns = sp.GetService<IAmazonSimpleNotificationService>();
-            var testReceiver = sp.GetService<ISnsTestReceiver>();
+            var testReceiver = sp.GetService<ISnsTestReceiverClient>();
 
             // When
             await sns.PublishAsync(request);
