@@ -18,7 +18,7 @@ sns-test-receiver:
 Add `SnsTestReceiver` as SNS subscriber using HTTP protocol. For example, when using Localstack and AWS CLI:
 ```
 awslocal sns create-topic --name api-notifications
-awslocal sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:api-notifications" --protocol http --notification-endpoint http://sns-test-receiver:5000/messages
+awslocal sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:notifications" --protocol http --notification-endpoint http://sns-test-receiver:5000/messages
 ```
 
 ### 3. Install the SDK
