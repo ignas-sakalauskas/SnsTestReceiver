@@ -17,12 +17,12 @@ sns-test-receiver:
 ### 2. Setup SNS subscriber
 Add `SnsTestReceiver` as SNS subscriber using HTTP protocol. For example, when using Localstack and AWS CLI:
 ```
-aws --endpoint-url=http://localstack:4566 sns create-topic --name api-notifications
-aws --endpoint-url=http://localstack:4566 sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:api-notifications" --protocol http --notification-endpoint http://sns-test-receiver:5000/messages
+awslocal sns create-topic --name api-notifications
+awslocal sns subscribe --topic-arn "arn:aws:sns:eu-west-1:000000000000:api-notifications" --protocol http --notification-endpoint http://sns-test-receiver:5000/messages
 ```
 
 ### 3. Install the SDK
-Install the [SnsTestReceiver.Sdk](https://www.nuget.org/packages/SnsTestReceiver.Sdk/) nuget package into your test project.
+Install the [SnsTestReceiver.Sdk](https://www.nuget.org/packages/SnsTestReceiver.Sdk/) NuGet package into your test project.
 ```
 dotnet add package SnsTestReceiver.Sdk
 ```
