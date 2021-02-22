@@ -13,7 +13,7 @@ services:
     volumes:
       - "./local/localstack-sdk:/docker-entrypoint-initaws.d"
     ports:
-     - "4566:4566"
+      - "4566:4566"
 
   sns-test-receiver:
     build:
@@ -22,6 +22,8 @@ services:
     networks:
       - test-network
     container_name: sns-test-receiver
+    environment:
+      - SQS__Urls__0=
     depends_on:
       - localstack
     ports:

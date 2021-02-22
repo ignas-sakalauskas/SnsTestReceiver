@@ -13,7 +13,7 @@ services:
     volumes:
       - "./local/localstack-api:/docker-entrypoint-initaws.d"
     ports:
-     - "4566:4566"
+      - "4566:4566"
 
 networks:
   test-network:
