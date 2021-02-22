@@ -34,8 +34,6 @@ namespace SnsTestReceiver.Sdk.Tests
             _sut = _serviceProvider.GetService<ISnsTestReceiverClient>();
         }
 
-        // TODO add SNS publish test
-
         [Theory, AutoData]
         public async Task Given_message_created_then_should_receive_by_id(SnsMessage message)
         {
