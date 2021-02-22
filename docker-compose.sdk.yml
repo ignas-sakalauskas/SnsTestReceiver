@@ -7,7 +7,7 @@ services:
       - test-network
     container_name: localstack
     environment:
-      - SERVICES=sns,sqs
+      - SERVICES=sns
       - HOSTNAME=localstack
       - DEFAULT_REGION=eu-west-1
     volumes:

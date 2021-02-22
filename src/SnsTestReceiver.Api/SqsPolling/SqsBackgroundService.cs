@@ -9,6 +9,7 @@ using Amazon.SQS.Model;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SnsTestReceiver.Api.Configuration;
 using SnsTestReceiver.Api.Services;
 using SnsTestReceiver.Sdk.Models;
 

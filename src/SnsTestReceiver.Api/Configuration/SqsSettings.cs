@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SnsTestReceiver.Api.SqsPolling
+namespace SnsTestReceiver.Api.Configuration
 {
     public class SqsSettings
     {

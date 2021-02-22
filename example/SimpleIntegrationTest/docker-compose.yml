@@ -1,8 +1,8 @@
-version: "3.7"
+version: "3.8"
 
 services:
   localstack:
-    image: localstack/localstack:latest
+    image: localstack/localstack-light:0.12.6
     container_name: localstack
     depends_on:
       - sns-test-receiver
