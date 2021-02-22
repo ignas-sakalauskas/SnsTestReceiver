@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack-light:0.12.6
+    networks:
+      - test-network
+    container_name: localstack
+    environment:
+      - SERVICES=sns,sqs
+      - HOSTNAME=localstack
+      - DEFAULT_REGION=eu-west-1
+    volumes:
+      - "./local/localstack-api:/docker-entrypoint-initaws.d"
+    ports:
+     - "4566:4566"
+
+networks:
+  test-network:
+    name: test-network

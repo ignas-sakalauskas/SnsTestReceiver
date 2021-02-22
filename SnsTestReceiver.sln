@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{800C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleIntegrationTest", "example\SimpleIntegrationTest\SimpleIntegrationTest.csproj", "{07D60DB1-090B-4928-9B5E-43AF91CA17A9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnsTestReceiver.Api.Tests", "test\SnsTestReceiver.Api.Tests\SnsTestReceiver.Api.Tests.csproj", "{6BA64FD4-F7CA-4198-9A90-8FB543DC005A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{07D60DB1-090B-4928-9B5E-43AF91CA17A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07D60DB1-090B-4928-9B5E-43AF91CA17A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07D60DB1-090B-4928-9B5E-43AF91CA17A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA64FD4-F7CA-4198-9A90-8FB543DC005A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA64FD4-F7CA-4198-9A90-8FB543DC005A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA64FD4-F7CA-4198-9A90-8FB543DC005A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA64FD4-F7CA-4198-9A90-8FB543DC005A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{595D59F3-A84F-4590-A5EF-5B5CF099AA7C} = {159C8935-CC18-46B1-893C-162B6C9D8BAE}
 		{BAB7AF58-0E43-4739-90C1-18BBC1547414} = {20C23ADC-35FE-46F1-B54D-088BC5773B57}
 		{07D60DB1-090B-4928-9B5E-43AF91CA17A9} = {800C151D-64C5-49A9-A461-D3609AE4E98D}
+		{6BA64FD4-F7CA-4198-9A90-8FB543DC005A} = {20C23ADC-35FE-46F1-B54D-088BC5773B57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {153261A3-6356-428D-9142-5594D275A9EE}

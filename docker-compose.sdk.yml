@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack-light:0.12.6
+    networks:
+      - test-network
+    container_name: localstack
+    environment:
+      - SERVICES=sns,sqs
+      - HOSTNAME=localstack
+      - DEFAULT_REGION=eu-west-1
+    volumes:
+      - "./local/localstack-sdk:/docker-entrypoint-initaws.d"
+    ports:
+     - "4566:4566"
+
+  sns-test-receiver:
+    build:
+      context: .
+      dockerfile: ./src/SnsTestReceiver.Api/Dockerfile
+    networks:
+      - test-network
+    container_name: sns-test-receiver
+    depends_on:
+      - localstack
+    ports:
+      - "5000:5000"
+
+networks:
+  test-network:
+    name: test-network

@@ -43,7 +43,7 @@ namespace SimpleIntegrationTest
 
             var request = new PublishRequest
             {
-                TopicArn = "arn:aws:sns:eu-west-1:000000000000:notifications",
+                TopicArn = "arn:aws:sns:eu-west-1:000000000000:test-notifications",
                 Message = JsonSerializer.Serialize(expectedTestObject),
                 Subject = "MyTestNotification"
             };

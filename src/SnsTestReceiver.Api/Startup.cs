@@ -1,9 +1,11 @@
+using Amazon.SQS;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SnsTestReceiver.Api.Middleware;
 using SnsTestReceiver.Api.Services;
+using SnsTestReceiver.Api.SqsPolling;
 
 namespace SnsTestReceiver.Api
 {
@@ -21,6 +23,11 @@ namespace SnsTestReceiver.Api
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             services.AddSingleton<IRepository, InMemoryRepository>();
             services.AddControllers();
+
+            // SQS polling
+            services.Configure<SqsSettings>(Configuration.GetSection("SQS"));
+            services.AddAWSService<IAmazonSQS>(Configuration.GetAWSOptions("SQS"));
+            services.AddHostedService<SqsBackgroundService>();
         }
 
         public void Configure(IApplicationBuilder app)
