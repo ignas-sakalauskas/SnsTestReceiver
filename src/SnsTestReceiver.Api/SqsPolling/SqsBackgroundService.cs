@@ -37,6 +37,7 @@ namespace SnsTestReceiver.Api.SqsPolling
             if (!_settings.Urls.Any())
             {
                 _logger.LogWarning("No SQS URLs configured, exiting...");
+                return;
             }
 
             while (!cancellationToken.IsCancellationRequested)
