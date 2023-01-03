@@ -1,10 +1,8 @@
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Amazon.SimpleNotificationService;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 using Xunit;
 
 namespace SnsTestReceiver.Api.Tests.Infrastructure
@@ -13,7 +11,7 @@ namespace SnsTestReceiver.Api.Tests.Infrastructure
     {
         protected readonly IAmazonSimpleNotificationService NotificationService;
         protected readonly string TopicArn;
-        private readonly ServiceCollection _serviceCollection = new ServiceCollection();
+        private readonly ServiceCollection _serviceCollection = new();
         private readonly ServiceProvider _serviceProvider;
 
         protected HttpClient HttpClient { get; }
