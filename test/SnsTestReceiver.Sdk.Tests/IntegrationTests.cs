@@ -5,18 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 using SnsTestReceiver.Sdk.Configuration;
 using SnsTestReceiver.Sdk.Extensions;
 using SnsTestReceiver.Sdk.Models;
-using System;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SnsTestReceiver.Sdk.Tests
 {
     public class IntegrationTests : IDisposable
     {
-        private readonly ServiceCollection _serviceCollection = new ServiceCollection();
+        private readonly ServiceCollection _serviceCollection = new();
         private readonly ServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration = BuildConfiguration();
 
@@ -26,7 +22,7 @@ namespace SnsTestReceiver.Sdk.Tests
         {
             _serviceCollection.AddSnsTestReceiver(new SnsTestReceiverOptions
             {
-                BaseUrl = _configuration.GetValue<Uri>("SnsTestReceiver:BaseUrl")
+                BaseUrl = new Uri(_configuration["SnsTestReceiver:BaseUrl"])
             });
 
             _serviceProvider = _serviceCollection.BuildServiceProvider();
