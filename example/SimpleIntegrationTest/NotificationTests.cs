@@ -56,6 +56,7 @@ namespace SimpleIntegrationTest
             await sns.PublishAsync(request);
 
             // Then
+            await Task.Delay(1000); // sometimes localstack is too slow
             var result = await testReceiver.SearchAsync(expectedId);
             result.Should().HaveCount(1);
             result.Single().Subject.Should().Be(request.Subject);
