@@ -1,4 +1,5 @@
 using Amazon;
+using Amazon.Runtime;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
@@ -26,6 +27,7 @@ namespace SimpleIntegrationTest
 
             collection.AddAWSService<IAmazonSimpleNotificationService>(new AWSOptions
             {
+                Credentials = new BasicAWSCredentials("xx", "xx"),
                 DefaultClientConfig =
                 {
                     AuthenticationRegion = RegionEndpoint.EUWest1.SystemName,
