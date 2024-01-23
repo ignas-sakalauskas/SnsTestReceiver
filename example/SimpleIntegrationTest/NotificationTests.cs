@@ -51,6 +51,8 @@ namespace SimpleIntegrationTest
             await using var sp = collection.BuildServiceProvider();
             var sns = sp.GetService<IAmazonSimpleNotificationService>();
             var testReceiver = sp.GetService<ISnsTestReceiverClient>();
+            // Needed starting Localstack 1.x
+            await testReceiver.ConfirmSubscriptionAsync();
 
             // When
             await sns.PublishAsync(request);

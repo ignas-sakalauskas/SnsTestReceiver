@@ -8,8 +8,6 @@ services:
       - sns-test-receiver
     environment:
       - AWS_DEFAULT_REGION=eu-west-1
-      - AWS_ACCESS_KEY_ID=XX
-      - AWS_SECRET_ACCESS_KEY=XX
     volumes:
       - "./:/etc/localstack/init/ready.d"
     ports:
