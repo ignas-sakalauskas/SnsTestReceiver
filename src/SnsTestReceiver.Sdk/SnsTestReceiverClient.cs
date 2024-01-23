@@ -19,10 +19,7 @@ namespace SnsTestReceiver.Sdk
 
         public async Task<IReadOnlyList<SnsMessage>> SearchAsync(string text = null, int? limit = null)
         {
-            using var response = await _httpClient.GetAsync($"/messages/?search={text}&limit={limit}");
-            response.EnsureSuccessStatusCode();
-
-            return await DeserializeAsync<List<SnsMessage>>(response.Content);
+            return await InternalSearchAsync(text, limit);
         }
 
         public async Task<SnsMessage> GetAsync(string messageId)
@@ -55,6 +52,22 @@ namespace SnsTestReceiver.Sdk
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task ConfirmSubscriptionAsync()
+        {
+            const string subscriptionSearchText = "confirm the subscription";
+            
+            var messages = await InternalSearchAsync(subscriptionSearchText);
+
+            foreach (var message in messages)
+            {
+                if (Uri.TryCreate(message.SubscribeURL, UriKind.Absolute, out var subscribeURL))
+                {
+                    using var response = await _httpClient.GetAsync(subscribeURL);
+                    response.EnsureSuccessStatusCode();
+                }
+            }
+        }
+
         private static async Task<T> DeserializeAsync<T>(HttpContent httpContent)
         {
             await using var responseStream = await httpContent.ReadAsStreamAsync();
@@ -64,6 +77,14 @@ namespace SnsTestReceiver.Sdk
             });
 
             return result;
+        }
+
+        private async Task<IReadOnlyList<SnsMessage>> InternalSearchAsync(string text = null, int? limit = null)
+        {
+            using var response = await _httpClient.GetAsync($"/messages/?search={text}&limit={limit}");
+            response.EnsureSuccessStatusCode();
+
+            return await DeserializeAsync<List<SnsMessage>>(response.Content);
         }
     }
 }

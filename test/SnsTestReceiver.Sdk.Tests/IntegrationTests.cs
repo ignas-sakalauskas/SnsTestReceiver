@@ -1,3 +1,5 @@
+using Amazon.SimpleNotificationService;
+using Amazon.SimpleNotificationService.Model;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,7 @@ namespace SnsTestReceiver.Sdk.Tests
         private readonly ServiceCollection _serviceCollection = new();
         private readonly ServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration = BuildConfiguration();
+        private readonly IAmazonSimpleNotificationService _sns;
 
         private readonly ISnsTestReceiverClient _sut;
 
@@ -25,9 +28,16 @@ namespace SnsTestReceiver.Sdk.Tests
                 BaseUrl = new Uri(_configuration["SnsTestReceiver:BaseUrl"])
             });
 
+            _serviceCollection.AddDefaultAWSOptions(_configuration.GetAWSOptions());
+            _serviceCollection.AddAWSService<IAmazonSimpleNotificationService>();
+
             _serviceProvider = _serviceCollection.BuildServiceProvider();
 
+            _sns = _serviceProvider.GetService<IAmazonSimpleNotificationService>();
             _sut = _serviceProvider.GetService<ISnsTestReceiverClient>();
+
+            // Confirm SNS subscription, otherwise notifications are not forwarded at all
+            _sut.ConfirmSubscriptionAsync().GetAwaiter().GetResult();
         }
 
         [Theory, AutoData]
@@ -59,6 +69,27 @@ namespace SnsTestReceiver.Sdk.Tests
             result.Single().Should().BeEquivalentTo(message);
         }
 
+        [Theory, AutoData]
+        public async Task Given_notification_published_to_sns_then_the_notification_should_be_found_via_sdk(string message)
+        {
+            // Given
+            var request = new PublishRequest
+            {
+                TopicArn = "arn:aws:sns:eu-west-1:000000000000:test-notifications",
+                Message = message,
+                Subject = "MyTestNotification"
+            };
+
+            // When
+            await _sns.PublishAsync(request);
+
+            // Then
+            await Task.Delay(1000); // sometimes localstack is too slow
+            var result = await _sut.SearchAsync(request.Message);
+            result.Should().HaveCount(1);
+            result.Single().Message.Should().Be(request.Message);
+        }
+
         public void Dispose()
         {
             _serviceProvider?.Dispose();
@@ -68,7 +99,7 @@ namespace SnsTestReceiver.Sdk.Tests
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false);
+                .AddJsonFile("appsettings.tests.json", false, false);
 
             return configurationBuilder.Build();
         }

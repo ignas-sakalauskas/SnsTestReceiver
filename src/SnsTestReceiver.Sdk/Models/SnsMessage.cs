@@ -17,6 +17,8 @@ namespace SnsTestReceiver.Sdk.Models
         public Dictionary<string, MessageAttributeValue> MessageAttributes { get; set; }
             = new Dictionary<string, MessageAttributeValue>();
         public string Timestamp { get; set; }
+        public string Token { get; set; }
+        public string SubscribeURL { get; set; }
         public string SignatureVersion { get; set; }
         public string Signature { get; set; }
         public string SigningCertUrl { get; set; }

@@ -2,18 +2,16 @@ version: "3.8"
 
 services:
   localstack:
-    image: localstack/localstack:0.12.11
+    image: localstack/localstack:3
     container_name: localstack
     depends_on:
       - sns-test-receiver
     environment:
-      - SERVICES=sns
-      - HOSTNAME=localstack
       - AWS_DEFAULT_REGION=eu-west-1
       - AWS_ACCESS_KEY_ID=XX
       - AWS_SECRET_ACCESS_KEY=XX
     volumes:
-      - "./:/docker-entrypoint-initaws.d"
+      - "./:/etc/localstack/init/ready.d"
     ports:
       - "4566:4566"
 

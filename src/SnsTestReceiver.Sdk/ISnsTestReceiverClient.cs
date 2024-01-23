@@ -10,5 +10,6 @@ namespace SnsTestReceiver.Sdk
         Task<SnsMessage> GetAsync(string messageId);
         Task DeleteAsync(string messageId);
         Task CreateAsync(string body);
+        Task ConfirmSubscriptionAsync();
     }
 }

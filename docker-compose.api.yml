@@ -2,16 +2,14 @@ version: "3.8"
 
 services:
   localstack:
-    image: localstack/localstack:0.12.11
+    image: localstack/localstack:3
     networks:
       - test-network
     container_name: localstack
     environment:
-      - SERVICES=sns,sqs
-      - HOSTNAME=localstack
-      - DEFAULT_REGION=eu-west-1
+      - AWS_DEFAULT_REGION=eu-west-1
     volumes:
-      - "./local/localstack-api:/docker-entrypoint-initaws.d"
+      - "./local/localstack-api:/etc/localstack/init/ready.d"
     ports:
       - "4566:4566"
 

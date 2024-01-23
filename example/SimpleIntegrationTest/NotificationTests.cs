@@ -1,3 +1,4 @@
+using Amazon;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
@@ -6,10 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SnsTestReceiver.Sdk;
 using SnsTestReceiver.Sdk.Configuration;
 using SnsTestReceiver.Sdk.Extensions;
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SimpleIntegrationTest
@@ -30,8 +28,10 @@ namespace SimpleIntegrationTest
             {
                 DefaultClientConfig =
                 {
-                    ServiceURL = "http://localhost:4566"
-                }
+                    AuthenticationRegion = RegionEndpoint.EUWest1.SystemName,
+                    RegionEndpoint = RegionEndpoint.EUWest1,
+                    ServiceURL = "http://localhost:4566",
+                },
             });
 
             var expectedId = Guid.NewGuid().ToString();
