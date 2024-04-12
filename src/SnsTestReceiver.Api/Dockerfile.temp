@@ -1,27 +1,12 @@
-# TODO - clean up or remove
-
-# FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
-
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine AS base
-
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 # build config args
 ARG BUILDCONFIG=RELEASE
 ARG VERSION=2.0.0
 
-# multi-platform build args
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG TARGETVARIANT
-ARG BUILDPLATFORM
-ARG BUILDOS
-ARG BUILDARCH
-ARG BUILDVARIANT
-RUN echo "Building on $BUILDPLATFORM, targeting $TARGETPLATFORM"
-RUN echo "Building on ${BUILDOS} and ${BUILDARCH} with optional variant ${BUILDVARIANT}"
-RUN echo "Targeting ${TARGETOS} and ${TARGETARCH} with optional variant ${TARGETVARIANT}"
+# copy csproj and restore as distinct layers
+COPY ./src/SnsTestReceiver.Api/*.csproj ./src/SnsTestReceiver.Api/
+RUN dotnet restore ./src/SnsTestReceiver.Api/SnsTestReceiver.Api.csproj
 
 # copy everything
 COPY ./src/ ./src/
@@ -31,30 +16,27 @@ WORKDIR ./src/SnsTestReceiver.Api/
 FROM build AS publish
 
 # map Docker arch into dotnet runtime arch value
-RUN if [[ "$TARGETARCH" == "amd64" ]] ; then echo Argument not provided ; else echo Argument is $arg ; fi
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "Building on $BUILDPLATFORM, targeting $TARGETPLATFORM"
 
-if [ "$TARGETARCH" == "amd64" ]; then
-    dotnet publish "API.csproj" -c Release -o /app/publish -r linux-x64 --sc
-elif [ "$TARGETARCH" == "arm64" ]; then
-    dotnet publish "API.csproj" -c Release -o /app/publish -r linux-arm64 --sc
-fi
+# TODO - check if can simplify below using  https://devblogs.microsoft.com/dotnet/improving-multiplatform-container-support/
 
-
-RUN dotnet publish --configuration $BUILDCONFIG --output /app/publish --self-contained true --arch $TARGETARCH /p:Version=$VERSION
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    RID=linux-x64 ; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    RID=linux-arm64 ; \
+    elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then \
+    RID=linux-arm ; \
+    fi \
+    && dotnet publish --configuration $BUILDCONFIG --output /app/publish --runtime $RID /p:Version=$VERSION
 
 # create the final image
-FROM --platform=$BUILDPLATFORM base as final
+FROM publish as final
 WORKDIR /app
 COPY --from=publish /app/publish ./
-
-# create a non-privilleged user to run the dotnet app
-#RUN adduser --disabled-password --home /app --gecos '' dotnetuser && chown -R dotnetuser /app
-#USER dotnetuser
-
-# Grant execute permission
-RUN ["chmod", "+x", "./SnsTestReceiver.Api.dll"]
 
 # configure and run
 ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
-ENTRYPOINT ["./SnsTestReceiver.Api.dll"]
+ENTRYPOINT ["dotnet", "./SnsTestReceiver.Api.dll"]
