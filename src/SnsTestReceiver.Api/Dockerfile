@@ -1,18 +1,24 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 
-ARG BUILDCONFIG=RELEASE
-ARG VERSION=1.0.0
+ARG TARGETARCH
+ARG VERSION=2.0.0
 
-# copy everything else and build app
+# copy and publish app and libraries
 COPY ./src/ ./src/
 WORKDIR ./src/SnsTestReceiver.Api/
-RUN dotnet publish -c $BUILDCONFIG -o out /p:Version=$VERSION
+RUN dotnet publish --arch $TARGETARCH --output /app /p:Version=$VERSION
 
+# final image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 WORKDIR /app
-COPY --from=build /src/SnsTestReceiver.Api/out ./
+COPY --from=build /app .
 
-# configure and run
+# create non-root user
+ARG APP_UID=1000
+RUN adduser --uid $APP_UID --disabled-password docker
+USER $APP_UID
+
+# configure the entry point
 ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
-ENTRYPOINT ["dotnet", "SnsTestReceiver.Api.dll"]
+ENTRYPOINT ["./SnsTestReceiver.Api"]
