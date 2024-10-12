@@ -12,7 +12,7 @@ services:
       - "4566:4566"
 
   sns-test-receiver:
-    image: ignassakalauskas/sns-test-receiver:3.0.1
+    image: ignassakalauskas/sns-test-receiver:latest
     container_name: sns-test-receiver
     ports:
       - "5000:5000"
