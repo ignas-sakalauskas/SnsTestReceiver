@@ -25,19 +25,19 @@ namespace SnsTestReceiver.Api.SqsPolling
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Starting SQS polling of {_settings.Urls.Count} queues");
-
             if (_settings.Urls?.Count == 0)
             {
                 _logger.LogWarning("No SQS URLs configured, exiting...");
                 return;
             }
 
+            _logger.LogInformation($"Starting SQS polling of {_settings.Urls.Count} queues");
+
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    var tasks = _settings.Urls.Where(url => url != null).Select(url => ProcessMessagesAsync(url, cancellationToken));
+                    var tasks = _settings.Urls.Select(url => ProcessMessagesAsync(url, cancellationToken));
                     await Task.WhenAll(tasks);
                 }
                 catch (OperationCanceledException)
@@ -54,6 +54,12 @@ namespace SnsTestReceiver.Api.SqsPolling
 
         private async Task ProcessMessagesAsync(Uri url, CancellationToken cancellationToken)
         {
+            if (url == null)
+            {
+                _logger.LogWarning("Null URL provided, skipping...");
+                return;
+            }
+
             var receiveRequest = new ReceiveMessageRequest
             {
                 QueueUrl = url.ToString(),
