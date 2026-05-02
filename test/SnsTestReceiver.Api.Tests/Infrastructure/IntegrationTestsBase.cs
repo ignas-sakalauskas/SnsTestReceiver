@@ -21,7 +21,7 @@ namespace SnsTestReceiver.Api.Tests.Infrastructure
             factory.Server.AllowSynchronousIO = true;
             HttpClient = factory.CreateClient();
 
-            var configuration = factory.Server.Host.Services.GetService<IConfiguration>();
+            var configuration = factory.Services.GetService<IConfiguration>();
             TopicArn = configuration.GetValue<string>("SNS:TopicArn");
 
             _serviceCollection.AddAWSService<IAmazonSimpleNotificationService>(configuration.GetAWSOptions("SNS"));

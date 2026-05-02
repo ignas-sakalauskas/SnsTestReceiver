@@ -1,6 +1,6 @@
 services:
   localstack:
-    image: localstack/localstack:3
+    image: localstack/localstack:4
     networks:
       - test-network
     container_name: localstack

@@ -1,7 +1,7 @@
-﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 
 ARG TARGETARCH
-ARG VERSION=3.0.2
+ARG VERSION=4.0.0
 
 # copy and publish app and libraries
 COPY ./src/ ./src/
@@ -9,7 +9,7 @@ WORKDIR ./src/SnsTestReceiver.Api/
 RUN dotnet publish --arch $TARGETARCH --output /app /p:Version=$VERSION
 
 # final image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 WORKDIR /app
 COPY --from=build /app .
 

@@ -14,5 +14,9 @@ services:
   sns-test-receiver:
     image: ignassakalauskas/sns-test-receiver:latest
     container_name: sns-test-receiver
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=xx
+      - AWS_SECRET_ACCESS_KEY=xx
     ports:
       - "5000:5000"
