@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SnsTestReceiver.Api.Configuration;
 using SnsTestReceiver.Api.Services;
@@ -34,7 +27,7 @@ namespace SnsTestReceiver.Api.SqsPolling
         {
             _logger.LogInformation($"Starting SQS polling of {_settings.Urls.Count} queues");
 
-            if (!_settings.Urls.Any())
+            if (_settings.Urls?.Count == 0)
             {
                 _logger.LogWarning("No SQS URLs configured, exiting...");
                 return;
@@ -44,7 +37,7 @@ namespace SnsTestReceiver.Api.SqsPolling
             {
                 try
                 {
-                    var tasks = _settings.Urls.Select(url => ProcessMessagesAsync(url, cancellationToken));
+                    var tasks = _settings.Urls.Where(url => url != null).Select(url => ProcessMessagesAsync(url, cancellationToken));
                     await Task.WhenAll(tasks);
                 }
                 catch (OperationCanceledException)
