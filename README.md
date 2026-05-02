@@ -1,5 +1,5 @@
 # SnsTestReceiver
-Simple API to receive and manage SNS test notifications. It could be very useful in integration tests to assert if SNS subscribers are receiving the expected notifications. The introductional blog post can be found [here](https://ignas.me/tech/snstestreceiver-introduction/).
+Simple API to receive and manage AWS SNS test notifications. It could be very useful in integration tests to assert if AWS SNS subscribers are receiving the expected notifications. The introductional blog post can be found [here](https://ignas.me/tech/snstestreceiver-introduction/).
 
 ## Setup
 
