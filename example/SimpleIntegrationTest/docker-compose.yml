@@ -1,6 +1,6 @@
 services:
   localstack:
-    image: localstack/localstack:3
+    image: localstack/localstack:4
     container_name: localstack
     depends_on:
       - sns-test-receiver
@@ -12,7 +12,7 @@ services:
       - "4566:4566"
 
   sns-test-receiver:
-    image: ignassakalauskas/sns-test-receiver:latest
+    image: ignassakalauskas/sns-test-receiver:4
     container_name: sns-test-receiver
     environment:
       - AWS_DEFAULT_REGION=eu-west-1

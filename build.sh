@@ -2,14 +2,14 @@
 dotnet pack
 
 # default platform (hardcoded tag)
-docker build . --file src/SnsTestReceiver.Api/Dockerfile --tag ignassakalauskas/sns-test-receiver:4.0.0 --no-cache --progress=plain
+docker build . --file src/SnsTestReceiver.Api/Dockerfile --tag ignassakalauskas/sns-test-receiver:4 --no-cache --progress=plain
 
 # multi-platform (hardcoded tag)
 docker buildx create --name mybuilder --bootstrap --use
 docker buildx use --builder mybuilder
-docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --tag ignassakalauskas/sns-test-receiver:4.0.0 . --file ./src/SnsTestReceiver.Api/Dockerfile --no-cache --progress=plain --push
+docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --tag ignassakalauskas/sns-test-receiver:4 . --file ./src/SnsTestReceiver.Api/Dockerfile --no-cache --progress=plain --push
 
-docker buildx build --load --tag ignassakalauskas/sns-test-receiver:4.0.0 . --file ./src/SnsTestReceiver.Api/Dockerfile
+docker buildx build --load --tag ignassakalauskas/sns-test-receiver:4 . --file ./src/SnsTestReceiver.Api/Dockerfile
 
 # environment variables for local development
 export AWS_ACCESS_KEY_ID=xx
