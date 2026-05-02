@@ -26,12 +26,12 @@ Install the [SnsTestReceiver.Sdk](https://www.nuget.org/packages/SnsTestReceiver
 ```
 dotnet add package SnsTestReceiver.Sdk
 ```
+
 ## Examples
 See `example` folder.
 
 ## Notes
 - If you use a different programming language, you can still use the `SnsTestReceiver`, however you need to write your own SDK.
 
-## Upgrade localstack from 0.x to 3.x
-- Specify `AuthenticationRegion` in AWS config
-- Make sure to confirm SNS subscriptions, e.g. use `ConfirmSubscriptionAsync()` in the `SnsTestReceiver.Sdk` nuget package.
+## Localstack 3.x
+- Legacy 3.x Localstack is used for now, and will be upgraded in the future.

@@ -28,10 +28,10 @@ namespace SimpleIntegrationTest
             collection.AddAWSService<IAmazonSimpleNotificationService>(new AWSOptions
             {
                 Credentials = new BasicAWSCredentials("xx", "xx"),
+                Region = RegionEndpoint.EUWest1,
                 DefaultClientConfig =
                 {
                     AuthenticationRegion = RegionEndpoint.EUWest1.SystemName,
-                    RegionEndpoint = RegionEndpoint.EUWest1,
                     ServiceURL = "http://localhost:4566",
                 },
             });
