@@ -6,19 +6,12 @@ namespace SnsTestReceiver.Sdk.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddSnsTestReceiver(this IServiceCollection serviceCollection, SnsTestReceiverOptions options)
+        public static IHttpClientBuilder AddSnsTestReceiver(this IServiceCollection serviceCollection, SnsTestReceiverOptions options)
         {
-            if (serviceCollection == null)
-            {
-                throw new ArgumentNullException(nameof(serviceCollection));
-            }
+            ArgumentNullException.ThrowIfNull(serviceCollection);
+            ArgumentNullException.ThrowIfNull(options);
 
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
-            serviceCollection.AddHttpClient<ISnsTestReceiverClient, SnsTestReceiverClient>(c =>
+            return serviceCollection.AddHttpClient<ISnsTestReceiverClient, SnsTestReceiverClient>(c =>
             {
                 c.BaseAddress = options.BaseUrl;
             });
