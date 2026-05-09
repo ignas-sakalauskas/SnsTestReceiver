@@ -31,7 +31,7 @@ namespace SnsTestReceiver.Api.SqsPolling
                 return;
             }
 
-            _logger.LogInformation($"Starting SQS polling of {_settings.Urls.Count} queues");
+            _logger.LogInformation("Starting SQS polling of {queueCount} queues", _settings.Urls.Count);
 
             while (!cancellationToken.IsCancellationRequested)
             {

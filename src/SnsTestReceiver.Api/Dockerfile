@@ -1,7 +1,7 @@
 ﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 
 ARG TARGETARCH
-ARG VERSION=4.0.0
+ARG VERSION=4.1.0
 
 # copy and publish app and libraries
 COPY ./src/ ./src/

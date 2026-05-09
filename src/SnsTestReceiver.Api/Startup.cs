@@ -4,6 +4,7 @@ using SnsTestReceiver.Api.Configuration;
 using SnsTestReceiver.Api.Middleware;
 using SnsTestReceiver.Api.Services;
 using SnsTestReceiver.Api.SqsPolling;
+using System.Reflection;
 
 namespace SnsTestReceiver.Api
 {
@@ -29,8 +30,10 @@ namespace SnsTestReceiver.Api
             services.AddHostedService<SqsBackgroundService>();
         }
 
-        public void Configure(IApplicationBuilder app, IOptions<ApiSettings> apiSettings)
+        public void Configure(IApplicationBuilder app, IOptions<ApiSettings> apiSettings, ILogger<Startup> logger)
         {
+            logger.LogInformation("Starting SnsTestReceiver.Api version: {assemblyVersion}", GetAssemblyVersion());
+
             app.UsePathBase(apiSettings.Value.PathBase);
             app.UseRouting();
             app.UseMiddleware<RequestLoggingMiddleware>();
@@ -41,6 +44,11 @@ namespace SnsTestReceiver.Api
                     await context.Response.WriteAsync("pong");
                 });
             });
+        }
+
+        private static string GetAssemblyVersion()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? string.Empty;
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-
-namespace SnsTestReceiver.Api.Middleware
+﻿namespace SnsTestReceiver.Api.Middleware
 {
     public class RequestLoggingMiddleware
     {
