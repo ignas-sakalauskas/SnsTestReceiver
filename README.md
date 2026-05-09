@@ -8,11 +8,15 @@ The setup consists of 3 simple steps.
 ### 1. Pull the Docker image
 Add the following into your `docker-compose.yml` file:
 ```
-sns-test-receiver:
-  image: ignassakalauskas/sns-test-receiver:latest
-  container_name: sns-test-receiver
-  ports:
-    - "5000:5000"
+  sns-test-receiver:
+    image: ignassakalauskas/sns-test-receiver:latest
+    container_name: sns-test-receiver
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=xx
+      - AWS_SECRET_ACCESS_KEY=xx
+    ports:
+      - "5000:5000"
 ```
 ### 2. Setup SNS subscriber
 Add `SnsTestReceiver` as SNS subscriber using HTTP protocol. For example, when using Localstack and AWS CLI:
@@ -33,5 +37,5 @@ See `example` folder.
 ## Notes
 - If you use a different programming language, you can still use the `SnsTestReceiver`, however you need to write your own SDK.
 
-## Localstack 3.x
-- Legacy 3.x Localstack is used for now, and will be upgraded in the future.
+## Localstack 4.x
+- Legacy 4.x Localstack is used because its the last version without the need to use subcription keys.

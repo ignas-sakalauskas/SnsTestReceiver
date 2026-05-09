@@ -12,7 +12,7 @@ services:
       - "4566:4566"
 
   sns-test-receiver:
-    image: ignassakalauskas/sns-test-receiver:4
+    image: ignassakalauskas/sns-test-receiver:latest
     container_name: sns-test-receiver
     environment:
       - AWS_DEFAULT_REGION=eu-west-1
