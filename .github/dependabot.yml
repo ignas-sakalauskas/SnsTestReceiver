@@ -2,21 +2,39 @@
 
 version: 2
 updates:
-  # Applies to all ecosystems
-  - directory: "/"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     groups:
       all-actions:
         patterns:
           - "*"
 
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+
 security-updates:
-  # Applies to all ecosystems
-  - directory: "/"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: "weekly"
     groups:
-      security-updates:
+      security-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      security-dependencies:
         patterns:
           - "*"
