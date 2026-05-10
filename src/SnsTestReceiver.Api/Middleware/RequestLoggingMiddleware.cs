@@ -1,17 +1,13 @@
-﻿namespace SnsTestReceiver.Api.Middleware
+﻿using SnsTestReceiver.Api.Helpers;
+
+namespace SnsTestReceiver.Api.Middleware
 {
-    public class RequestLoggingMiddleware
+    public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggingMiddleware> logger)
     {
         private const string MessageTemplate = "Request {method} {path}{query} => {statusCode}";
 
-        private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
-
-        public RequestLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
-        {
-            _next = next;
-            _logger = loggerFactory.CreateLogger<RequestLoggingMiddleware>();
-        }
+        private readonly RequestDelegate _next = next;
+        private readonly ILogger _logger = logger;
 
         public async Task Invoke(HttpContext context)
         {
@@ -34,11 +30,11 @@
                 }
 
                 _logger.Log(
-                    logLevel, 
+                    logLevel,
                     MessageTemplate,
-                    context.Request?.Method,
-                    context.Request?.Path.Value,
-                    context.Request?.QueryString.Value,
+                    context.Request?.Method.SanitizeForLog(),
+                    context.Request?.Path.Value.SanitizeForLog(),
+                    context.Request?.QueryString.Value.SanitizeForLog(),
                     statusCode);
             }
         }

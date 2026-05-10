@@ -46,7 +46,7 @@ namespace SnsTestReceiver.Api.SqsPolling
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Error while processing messages: {ex.Message}", cancellationToken);
+                    _logger.LogError(ex, "Error while processing messages: {exceptionMessage}", ex.Message);
                     await Task.Delay(1_000, cancellationToken);
                 }
             }
@@ -70,11 +70,11 @@ namespace SnsTestReceiver.Api.SqsPolling
             var response = await _client.ReceiveMessageAsync(receiveRequest, cancellationToken);
             if (!response.Messages.Any())
             {
-                _logger.LogDebug($"No messages received at {url}");
+                _logger.LogDebug("No messages received at {url}", url);
                 return;
             }
 
-            _logger.LogInformation($"Received {response.Messages.Count} message(s), request ID={response.ResponseMetadata.RequestId}");
+            _logger.LogInformation("Received {messageCount} message(s), request ID={requestId}", response.Messages.Count, response.ResponseMetadata.RequestId);
 
             foreach (var message in response.Messages)
             {
@@ -87,12 +87,12 @@ namespace SnsTestReceiver.Api.SqsPolling
 
                     if (!_repository.TryCreate(body.MessageId, body))
                     {
-                        _logger.LogError($"Error persisting {message.MessageId}");
+                        _logger.LogError("Error persisting {messageId}", message.MessageId);
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"Error deserializing {message.MessageId}");
+                    _logger.LogError(e, "Error deserializing {messageId}", message.MessageId);
                 }
             }
             
@@ -110,7 +110,7 @@ namespace SnsTestReceiver.Api.SqsPolling
 
             var deleteResponse = await _client.DeleteMessageBatchAsync(deleteRequest, cancellationToken);
 
-            _logger.LogInformation($"Batch deleted {response.Messages.Count} messages, request ID={deleteResponse.ResponseMetadata.RequestId}");
+            _logger.LogInformation("Batch deleted {messageCount} messages, request ID={requestId}", response.Messages.Count, deleteResponse.ResponseMetadata.RequestId);
         }
     }
 }

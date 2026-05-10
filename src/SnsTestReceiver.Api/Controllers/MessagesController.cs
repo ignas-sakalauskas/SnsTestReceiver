@@ -64,7 +64,7 @@ namespace SnsTestReceiver.Api.Controllers
             if (!_repository.TryCreate(message.MessageId, message))
                 return Conflict();
 
-            _logger.LogDebug($"Message with ID={message.MessageId} created successfully");
+            _logger.LogDebug("Message with ID={messageId} created successfully", message.MessageId);
 
             return CreatedAtAction(nameof(Get), new { message.MessageId }, message);
         }
