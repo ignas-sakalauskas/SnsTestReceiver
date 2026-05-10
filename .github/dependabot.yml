@@ -1,0 +1,22 @@
+# Dependabot configuration
+
+version: 2
+updates:
+  # Applies to all ecosystems
+  - directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      all-actions:
+        patterns:
+          - "*"
+
+security-updates:
+  # Applies to all ecosystems
+  - directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      security-updates:
+        patterns:
+          - "*"
