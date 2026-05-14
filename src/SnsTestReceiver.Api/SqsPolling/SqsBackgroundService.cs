@@ -46,7 +46,8 @@ namespace SnsTestReceiver.Api.SqsPolling
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error while processing messages: {exceptionMessage}", ex.Message);
+                    _logger.LogError(ex, "Error while processing messages: {exceptionMessage}. URLs: {urls}", 
+                        ex.Message, string.Join(", ", _settings.Urls));
                     await Task.Delay(1_000, cancellationToken);
                 }
             }
@@ -68,7 +69,7 @@ namespace SnsTestReceiver.Api.SqsPolling
             };
 
             var response = await _client.ReceiveMessageAsync(receiveRequest, cancellationToken);
-            if (!response.Messages.Any())
+            if (response.Messages?.Count == 0)
             {
                 _logger.LogDebug("No messages received at {url}", url);
                 return;
