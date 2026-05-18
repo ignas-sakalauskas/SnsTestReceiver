@@ -69,7 +69,7 @@ namespace SnsTestReceiver.Api.SqsPolling
             };
 
             var response = await _client.ReceiveMessageAsync(receiveRequest, cancellationToken);
-            if (response.Messages?.Count == 0)
+            if (response.Messages == null || response.Messages?.Count == 0)
             {
                 _logger.LogDebug("No messages received at {url}", url);
                 return;
